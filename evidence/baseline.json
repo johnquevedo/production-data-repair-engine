@@ -1,0 +1,52 @@
+{
+  "generatedAt": "2026-07-26T00:25:11.654459Z",
+  "environment": {
+    "os": "Mac OS X aarch64",
+    "java": "26.0.1",
+    "postgres": "jdbc:postgresql://localhost:54329/repairs",
+    "kafka": "localhost:19092"
+  },
+  "input": {
+    "corruptedRecords": 1000,
+    "controlRecords": 100,
+    "badFeeBps": 790,
+    "workers": 8,
+    "targetFeeBps": 290
+  },
+  "cdc": {
+    "duplicateReplayRequested": 100,
+    "uniqueLineageEventsInserted": 1100,
+    "duplicateLineageRows": 0,
+    "outboxEventsPublished": 1100
+  },
+  "dryRun": {
+    "rowVersionSumUnchanged": true,
+    "mutationRejected": true,
+    "planHash": "f4cbd08cdbccffc1a56c9ca0d85122cec441844b85cc186dee43e44daa857a73",
+    "affectedRecords": 1000
+  },
+  "faultInjection": {
+    "abandonedClaimInjected": true,
+    "recoveryMillis": 28,
+    "automaticRollbacks": 1,
+    "claimsRecovered": 1,
+    "rollbackRestoredBusinessState": true,
+    "concurrentWriteConflicts": 1
+  },
+  "repair": {
+    "repairAttemptsApplied": 1000,
+    "uniqueCorruptedRecords": 1000,
+    "remainingWrongFees": 0,
+    "followupAffected": 2,
+    "recordsPerSecond": 380.0816500902765,
+    "elapsedMillis": 2631
+  },
+  "correctness": {
+    "duplicateLineage": 0,
+    "invalidPayments": 0,
+    "auditEvents": 2015,
+    "unbalancedLedgers": 0,
+    "valid": true
+  },
+  "passed": true
+}

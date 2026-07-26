@@ -1,0 +1,10 @@
+target/
+build/
+.tools/
+.idea/
+.DS_Store
+*.iml
+*.log
+*.db
+*.sqlite
+*.parquet

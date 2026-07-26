@@ -1,0 +1,72 @@
+{
+  "generatedAt": "2026-07-26T01:09:38.388376Z",
+  "environment": {
+    "os": "Mac OS X aarch64",
+    "kafka": "localhost:19092",
+    "postgres": "jdbc:postgresql://localhost:54329/repairs",
+    "java": "26.0.1"
+  },
+  "input": {
+    "badFeeBps": 790,
+    "workers": 8,
+    "corruptedRecords": 100000,
+    "targetFeeBps": 290
+  },
+  "seed": {
+    "elapsedMillis": 7579,
+    "recordsPerSecond": 13193.088602639178
+  },
+  "cdc": {
+    "finallyLineaged": 8988,
+    "initiallyLineaged": 110000,
+    "duplicatesRedelivered": 2000,
+    "initiallyPublished": 110000,
+    "duplicateLineageRows": 0,
+    "finallyPublished": 8988
+  },
+  "discovery": {
+    "recordsPerSecond": 266128.52498275676,
+    "affectedRecords": 100000,
+    "planHash": "6a1fe452af4661c052b8930245a93e4c0315222e3ef539e88967946f165402e4",
+    "elapsedMillis": 375,
+    "planPersistMillis": 3328
+  },
+  "dryRun": {
+    "repairMutationAuditEvents": 0,
+    "globalRowVersionChangedByOrdinaryWrites": true,
+    "mutationRejected": true
+  },
+  "ordinaryWrites": {
+    "baselineSamples": 200,
+    "concurrentSamples": 8787,
+    "successfulWrites": 8787,
+    "errors": 0,
+    "baselineP50Millis": 0.857291,
+    "baselineP95Millis": 1.504083,
+    "concurrentP50Millis": 2.673458,
+    "concurrentP95Millis": 4.978625,
+    "p50ImpactPercent": 211.8495353386423,
+    "p95ImpactPercent": 231.00733137732425
+  },
+  "repair": {
+    "uniqueCorruptedRecords": 100000,
+    "successfulApplies": 100000,
+    "elapsedMillis": 115613,
+    "recordsPerSecond": 864.9504881109098,
+    "conflicts": 92,
+    "retries": 1,
+    "followupAffected": 93,
+    "automaticRollbacks": 1,
+    "claimsRecovered": 1,
+    "recoveryMillis": 31
+  },
+  "correctness": {
+    "duplicateLineage": 0,
+    "unbalancedLedgers": 0,
+    "remainingWrongFees": 0,
+    "invalidPayments": 0,
+    "duplicateRepairApplies": 0,
+    "valid": true
+  },
+  "passed": true
+}

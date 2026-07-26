@@ -1,0 +1,69 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: repair-engine-controlled-run
+  namespace: data-repair
+  labels:
+    app.kubernetes.io/name: production-data-repair-engine
+spec:
+  parallelism: 4
+  completions: 4
+  completionMode: NonIndexed
+  backoffLimit: 8
+  ttlSecondsAfterFinished: 86400
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: production-data-repair-engine
+    spec:
+      restartPolicy: OnFailure
+      serviceAccountName: repair-engine
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      volumes:
+        - name: tmp
+          emptyDir: {}
+      containers:
+        - name: repair-worker
+          image: production-data-repair-engine:kind
+          imagePullPolicy: IfNotPresent
+          args:
+            - worker
+            - --job
+            - replace-with-reviewed-job-id
+            - --threads
+            - "1"
+            - --stale-after-ms
+            - "1500"
+            - --delay-after-claim-ms
+            - "20"
+            - --ready-file
+            - /tmp/repair-worker-ready
+          envFrom:
+            - configMapRef:
+                name: repair-engine
+            - secretRef:
+                name: repair-engine-database
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+            limits:
+              cpu: "2"
+              memory: 2Gi
+          readinessProbe:
+            exec:
+              command: ["test", "-f", "/tmp/repair-worker-ready"]
+            periodSeconds: 1
+            failureThreshold: 10
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp

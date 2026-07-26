@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: repair-engine
+  namespace: data-repair
+data:
+  JDBC_URL: jdbc:postgresql://postgres.data-repair.svc:5432/repairs
+  KAFKA_BOOTSTRAP_SERVERS: kafka.data-repair.svc:9092
+  WORKERS: "8"

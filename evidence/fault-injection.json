@@ -1,0 +1,12 @@
+{
+  "jobId": "e102b3b1-ccee-4d03-978c-50e7c9b49d5e",
+  "killedWorkers": 1,
+  "kafkaRestarts": 2,
+  "postgresRestarts": 1,
+  "applied": 5000,
+  "duplicateApplies": 0,
+  "retries": 4,
+  "checkpoints": 5000,
+  "remainingWrongFees": 0,
+  "passed": true
+}

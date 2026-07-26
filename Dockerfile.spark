@@ -1,0 +1,7 @@
+FROM apache/spark:4.0.0
+USER root
+RUN mkdir -p /opt/repair /tmp/spark-home && chown -R 185:185 /opt/repair /tmp/spark-home
+COPY target/production-data-repair-engine.jar /opt/repair/repair-engine.jar
+USER 185
+ENV HOME=/tmp/spark-home
+ENTRYPOINT ["/opt/spark/bin/spark-submit","--class","dev.datarepair.spark.AffectedRecordDiscoveryJob","--master","local[*]","/opt/repair/repair-engine.jar"]

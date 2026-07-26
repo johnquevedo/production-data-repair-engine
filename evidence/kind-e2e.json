@@ -1,0 +1,16 @@
+{
+  "cluster": "kind-repair-engine",
+  "sparkAffected": 5000,
+  "workerPodsReady": 4,
+  "distinctWorkers": 5,
+  "podsForceDeleted": 1,
+  "podRecoveryMillis": 12000,
+  "applied": 5000,
+  "duplicateApplies": 0,
+  "retries": 1,
+  "checkpoints": 5000,
+  "remainingWrongFees": 0,
+  "securityContextVerified": true,
+  "readinessProbeVerified": true,
+  "passed": true
+}

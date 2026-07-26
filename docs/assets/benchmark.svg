@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420" viewBox="0 0 1200 420" role="img" aria-labelledby="title desc">
+  <title id="title">Controlled local experiment results</title>
+  <desc id="desc">One hundred thousand records repaired at 864.95 records per second, Spark discovery at 71,343.66 records per second, 8,787 concurrent writes, 92 conflicts, zero duplicate repair applications.</desc>
+  <rect width="1200" height="420" rx="24" fill="#f5f8fc"/>
+  <text x="55" y="60" fill="#10233f" font-family="Inter,Arial,sans-serif" font-size="28" font-weight="700">100,000-record controlled local experiment</text>
+  <text x="55" y="92" fill="#52677f" font-family="Inter,Arial,sans-serif" font-size="16">Real Kafka + PostgreSQL containers · eight repair workers · ordinary writes continued</text>
+  <g font-family="Inter,Arial,sans-serif">
+    <g transform="translate(55 135)">
+      <rect width="250" height="110" rx="16" fill="#10233f"/>
+      <text x="22" y="35" fill="#98afc8" font-size="14">REPAIR THROUGHPUT</text>
+      <text x="22" y="78" fill="#fff" font-size="34" font-weight="700">864.95</text>
+      <text x="154" y="78" fill="#cde1f6" font-size="15">records/s</text>
+    </g>
+    <g transform="translate(335 135)">
+      <rect width="250" height="110" rx="16" fill="#263f70"/>
+      <text x="22" y="35" fill="#b9c9e7" font-size="14">SPARK DISCOVERY</text>
+      <text x="22" y="78" fill="#fff" font-size="34" font-weight="700">71,343.66</text>
+      <text x="180" y="96" fill="#dce7fb" font-size="13">records/s</text>
+    </g>
+    <g transform="translate(615 135)">
+      <rect width="250" height="110" rx="16" fill="#12654e"/>
+      <text x="22" y="35" fill="#b3ead8" font-size="14">CONCURRENT WRITES</text>
+      <text x="22" y="78" fill="#fff" font-size="34" font-weight="700">8,787</text>
+      <text x="130" y="78" fill="#d5f5ea" font-size="15">0 errors</text>
+    </g>
+    <g transform="translate(895 135)">
+      <rect width="250" height="110" rx="16" fill="#684450"/>
+      <text x="22" y="35" fill="#ffd1db" font-size="14">SAFE CONFLICTS</text>
+      <text x="22" y="78" fill="#fff" font-size="34" font-weight="700">92</text>
+      <text x="75" y="78" fill="#ffe4e9" font-size="15">CAS rejections</text>
+    </g>
+    <text x="55" y="295" fill="#10233f" font-size="17" font-weight="700">Concurrent-write latency</text>
+    <text x="55" y="330" fill="#52677f" font-size="15">p95 baseline</text>
+    <rect x="175" y="315" width="180" height="18" rx="9" fill="#97a7ba"/>
+    <text x="370" y="330" fill="#10233f" font-size="15" font-weight="700">1.504 ms</text>
+    <text x="515" y="330" fill="#52677f" font-size="15">p95 during repair</text>
+    <rect x="665" y="315" width="390" height="18" rx="9" fill="#e17086"/>
+    <text x="1070" y="330" fill="#7c2436" font-size="15" font-weight="700">4.979 ms</text>
+    <text x="55" y="378" fill="#7c2436" font-size="15" font-weight="700">+231.01% p95 impact — material local overhead, not a zero-impact or production availability claim</text>
+  </g>
+</svg>

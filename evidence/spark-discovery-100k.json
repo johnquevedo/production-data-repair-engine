@@ -1,0 +1,9 @@
+{
+  "generatedAt": "2026-07-26T01:10:15.140905678Z",
+  "affectedRecords": 100000,
+  "discoveryMillis": 1401,
+  "discoveryRecordsPerSecond": 71343.65759578386,
+  "parquetWriteMillis": 1151,
+  "partitions": 8,
+  "passed": true
+}

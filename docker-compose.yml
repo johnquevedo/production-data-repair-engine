@@ -1,0 +1,66 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: repairs
+      POSTGRES_USER: repairs
+      POSTGRES_PASSWORD: repairs
+    ports:
+      - "54329:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U repairs"]
+      interval: 2s
+      timeout: 2s
+      retries: 30
+
+  kafka:
+    image: apache/kafka:4.0.0
+    ports:
+      - "19092:19092"
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: CONTROLLER://:9093,PLAINTEXT://:9092,HOST://:19092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,HOST://localhost:19092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,HOST:PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --list"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+
+  spark-discovery:
+    image: apache/spark:4.0.0
+    profiles: ["spark"]
+    environment:
+      HOME: /tmp
+      SPARK_SUBMIT_OPTS: -Divy.cache.dir=/tmp/.ivy2/cache -Divy.home=/tmp/.ivy2
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./target:/opt/repair
+    command:
+      - /opt/spark/bin/spark-submit
+      - --class
+      - dev.datarepair.spark.AffectedRecordDiscoveryJob
+      - --master
+      - local[*]
+      - --conf
+      - spark.jars.ivy=/tmp/.ivy2
+      - --packages
+      - org.postgresql:postgresql:42.7.7
+      - /opt/repair/production-data-repair-engine.jar
+      - jdbc:postgresql://postgres:5432/repairs
+      - repairs
+      - repairs
+      - bad-fees-v2
+      - /opt/repair/spark-affected
+      - /opt/repair/spark-discovery-metrics.json
