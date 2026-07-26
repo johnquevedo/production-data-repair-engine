@@ -33,18 +33,18 @@ class PostgresRepairIntegrationTest {
             assertTrue(workload.refund(conflictTarget, 1, "concurrent", "refund-v1"));
 
             var engine = new RepairEngine(ds);
-            var first = engine.run(job, 3, rollbackTarget::equals, true);
+            var first = engine.run(job, 3, rollbackTarget::equals, false);
             assertEquals(1, first.rolledBack());
             assertEquals(1, first.conflicts());
-            assertTrue(first.abandonedClaim());
-            assertEquals(1, engine.recoverAbandonedClaims(job, Duration.ZERO));
-            var second = engine.run(job, 3, id -> false, false);
-            assertEquals(1, second.applied());
 
             var followup = planner.preview("bad-fees-v1", 290, 4);
             UUID followupJob = planner.persist(followup, false);
+            var interrupted = engine.run(followupJob, 3, id -> false, true);
+            assertTrue(interrupted.abandonedClaim());
+            assertEquals(1, interrupted.applied());
+            assertEquals(1, engine.recoverAbandonedClaims(followupJob, Duration.ZERO));
             var finalRun = engine.run(followupJob, 3, id -> false, false);
-            assertEquals(2, finalRun.applied());
+            assertEquals(1, finalRun.applied());
             assertTrue(new InvariantValidator(ds).validateAll().valid());
 
             var repeated = engine.run(followupJob, 3, id -> false, false);

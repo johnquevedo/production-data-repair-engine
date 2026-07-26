@@ -40,12 +40,17 @@ public final class LineageConsumer implements AutoCloseable {
         long deadline = System.nanoTime() + maximum.toNanos();
         int inserted = 0;
         int idlePolls = 0;
+        boolean receivedAny = false;
         while (System.nanoTime() < deadline && idlePolls < 3) {
             var records = consumer.poll(idle);
             if (records.isEmpty()) {
-                idlePolls++;
+                // A fresh consumer group can need several polls to discover its
+                // coordinator and receive an assignment, especially on CI.
+                // Only treat emptiness as "idle" after the first real batch.
+                if (receivedAny) idlePolls++;
                 continue;
             }
+            receivedAny = true;
             idlePolls = 0;
             int batchInserted = Database.transaction(dataSource, connection -> {
                 try (PreparedStatement ps = connection.prepareStatement("""
